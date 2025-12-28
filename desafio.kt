@@ -1,21 +1,63 @@
-// [Template no Kotlin Playground](https://pl.kotl.in/WcteahpyN)
+enum class Nivel { BASICO, INTERMEDIARIO, AVACADO }
 
-enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
+class Aluno(val nome: String, val idade: Int)
 
-class Usuario
+data class ConteudoEducacional(val nome: String, val duracao: Int, val nivel: Nivel)
 
-data class ConteudoEducacional(val nome: String, val duracao: Int)
+data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>, val nivel: Nivel,) {
 
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
+    val inscritos = mutableListOf<Aluno>()
 
-    val inscritos = mutableListOf<Usuario>()
-    
-    fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
+    fun matricular(vararg alunos: Aluno) {
+        //Adiciona os usuários passados para os inscritos
+        inscritos.addAll(alunos)
     }
 }
 
 fun main() {
-    TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+    //Criando uma lista para realizar a passagem para formação
+    val conteudoseducacionais = listOf<ConteudoEducacional>(
+        ConteudoEducacional("Introdução ao Kotlin", 40, Nivel.BASICO),
+        ConteudoEducacional("Funções Kotlin", 50, Nivel.INTERMEDIARIO),
+        ConteudoEducacional("Tratamento de Exeções", 45, Nivel.AVACADO)
+    )
+
+    //Instnaciando a formaçãs
+    val formacao = Formacao("Bootcamp Mobile", conteudoseducacionais, Nivel.INTERMEDIARIO)
+
+    //Adicionando varios alunos na lista de inscrtios
+    formacao.matricular(
+        Aluno("Murilo", 16),
+        Aluno("Maria", 19),
+        Aluno("Fernando", 45),
+        Aluno("Venilton", 40)
+    )
+
+    //Passando apenas um aluna para matricular
+    formacao.matricular(
+        Aluno("Jonas", 25)
+    )
+
+    //Saída das informações dos objetos
+    println("Nome da formação: ${formacao.nome}") //Saída do nome
+
+    println()
+
+    println("Nivel: ${formacao.nivel}") //Saída do nivel
+
+    println()
+
+    //Saida dos conteutos educacinais de formação
+    for(c: ConteudoEducacional in formacao.conteudos){
+        println("Nome: ${c.nome} | Duração: ${c.duracao} | Nivel: ${c.nivel}")
+    }
+
+    println()
+
+    //Saida dos usuários inscritos da formação
+    for(s: Aluno in formacao.inscritos){
+        println("Nome: ${s.nome} | Idade: ${s.idade}")
+    }
+
+
 }
